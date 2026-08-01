@@ -1,0 +1,45 @@
+#v.salman-192525153
+#Candidate Elimination Algorithm
+import csv
+
+# Read CSV file
+data = []
+with open('trainingdata.csv', 'r') as file:
+    reader = csv.reader(file)
+    next(reader)  # Skip header
+    for row in reader:
+        data.append(row)
+
+num_attr = len(data[0]) - 1
+
+# Initialize S and G
+S = ['0'] * num_attr
+G = ['?'] * num_attr
+
+first_positive = True
+
+for row in data:
+    attributes = row[:-1]
+    target = row[-1]
+
+    if target == "Yes":
+        if first_positive:
+            S = attributes.copy()
+            first_positive = False
+        else:
+            for i in range(num_attr):
+                if S[i] != attributes[i]:
+                    S[i] = '?'
+
+    else:  # Negative example
+        for i in range(num_attr):
+            if S[i] != attributes[i]:
+                G[i] = S[i]
+            else:
+                G[i] = '?'
+
+print("Final Specific Hypothesis:")
+print(S)
+
+print("\nFinal General Hypothesis:")
+print(G)
