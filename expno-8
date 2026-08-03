@@ -1,0 +1,22 @@
+#Linear Regression algorithm
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Independent Variable (Experience in Years)
+X = np.array([[1], [2], [3], [4], [5]])
+
+# Dependent Variable (Salary in Thousands)
+y = np.array([25, 30, 35, 40, 45])
+
+# Create Linear Regression Model
+model = LinearRegression()
+
+# Train the Model
+model.fit(X, y)
+
+# Predict Salary for 6 Years Experience
+prediction = model.predict([[6]])
+
+print("Slope (Coefficient):", model.coef_[0])
+print("Intercept:", model.intercept_)
+print("Predicted Salary for 6 Years Experience:", prediction[0])
