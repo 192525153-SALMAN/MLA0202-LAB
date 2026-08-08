@@ -1,0 +1,35 @@
+print("v.salman-192525153")
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Training data
+# Age, Mileage, Engine Size
+X = np.array([
+    [1, 10000, 1500],
+    [2, 20000, 1500],
+    [3, 30000, 1600],
+    [4, 40000, 1600],
+    [5, 50000, 1800],
+    [6, 60000, 1800],
+    [7, 70000, 2000],
+    [8, 80000, 2000]
+])
+
+# Car prices in lakhs
+y = np.array([8.5, 8.0, 7.5, 7.0, 6.5, 6.0, 5.5, 5.0])
+
+# Create model
+model = LinearRegression()
+
+# Train model
+model.fit(X, y)
+
+# New car
+new_car = [[3, 25000, 1600]]
+
+# Predict price
+prediction = model.predict(new_car)
+
+print("Car Price Prediction")
+print("--------------------")
+print("Predicted Car Price: Rs.", round(prediction[0], 2), "Lakhs")
