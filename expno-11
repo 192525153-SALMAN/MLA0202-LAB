@@ -1,0 +1,36 @@
+print("v.salman-192525153)
+from sklearn.tree import DecisionTreeClassifier
+
+# Training data
+# Features: Income, Loan Amount, Credit History
+X = [
+    [50000, 10000, 1],
+    [30000, 20000, 0],
+    [80000, 15000, 1],
+    [25000, 25000, 0],
+    [60000, 12000, 1],
+    [35000, 18000, 0],
+    [90000, 10000, 1],
+    [40000, 22000, 0]
+]
+
+# Credit Score Category
+# 0 = Poor, 1 = Good
+y = [1, 0, 1, 0, 1, 0, 1, 0]
+
+# Create Decision Tree model
+model = DecisionTreeClassifier(random_state=1)
+
+# Train model
+model.fit(X, y)
+
+# New customer
+new_customer = [[70000, 12000, 1]]
+
+# Prediction
+prediction = model.predict(new_customer)
+
+if prediction[0] == 1:
+    print("Credit Score Classification: GOOD")
+else:
+    print("Credit Score Classification: POOR")
