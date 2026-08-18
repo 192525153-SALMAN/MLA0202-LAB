@@ -1,0 +1,61 @@
+print("v.salman-192525153")
+
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# Sample mobile phone dataset
+data = np.array([
+    [2, 16, 1, 8, 3000, 1],
+    [3, 32, 2, 10, 5000, 1],
+    [4, 64, 3, 12, 8000, 1],
+    [4, 128, 4, 16, 12000, 2],
+    [6, 128, 4, 20, 18000, 2],
+    [6, 256, 5, 24, 25000, 2],
+    [8, 256, 6, 32, 35000, 3],
+    [8, 512, 6, 40, 50000, 3],
+    [12, 512, 7, 48, 70000, 3],
+    [2, 32, 1, 8, 3500, 1],
+    [3, 64, 2, 12, 6000, 1],
+    [4, 128, 3, 16, 14000, 2],
+    [6, 256, 5, 24, 22000, 2],
+    [8, 256, 6, 32, 40000, 3],
+    [12, 512, 8, 48, 80000, 3]
+])
+
+# Features:
+# RAM, Storage, Camera, Battery, Price, Processor
+X = data[:, [0, 1, 2, 3, 5]]
+y = data[:, 4]
+
+# Convert price into categories
+price_category = []
+
+for price in data[:, 4]:
+    if price < 10000:
+        price_category.append("Low")
+    elif price < 25000:
+        price_category.append("Medium")
+    else:
+        price_category.append("High")
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, price_category, test_size=0.2, random_state=42
+)
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+print("Mobile Price Prediction")
+print("Accuracy:", round(accuracy_score(y_test, y_pred) * 100, 2), "%")
+
+# New mobile:
+# RAM=8GB, Storage=256GB, Camera=6, Battery=30, Processor=6
+new_mobile = [[8, 256, 6, 30, 6]]
+
+prediction = model.predict(new_mobile)
+
+print("Predicted Price Range:", prediction[0])
