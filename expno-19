@@ -1,0 +1,62 @@
+print("v.salman-192525153")
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score, classification_report
+
+# Sample bank loan dataset
+data = {
+    "Age": [25, 35, 45, 28, 50, 32, 40, 29, 55, 38,
+            42, 26, 48, 31, 52],
+    "Income": [25000, 45000, 70000, 30000, 90000, 40000,
+               65000, 28000, 100000, 55000, 75000, 27000,
+               85000, 42000, 95000],
+    "LoanAmount": [50000, 100000, 200000, 60000, 250000,
+                   80000, 150000, 50000, 300000, 120000,
+                   180000, 60000, 220000, 100000, 280000],
+    "CreditScore": [600, 700, 750, 620, 780, 680, 720, 610,
+                    800, 710, 740, 590, 770, 690, 790],
+    "LoanApproved": [
+        "No", "Yes", "Yes", "No", "Yes",
+        "Yes", "Yes", "No", "Yes", "Yes",
+        "Yes", "No", "Yes", "Yes", "Yes"
+    ]
+}
+
+df = pd.DataFrame(data)
+
+X = df[["Age", "Income", "LoanAmount", "CreditScore"]]
+y = df["LoanApproved"]
+
+encoder = LabelEncoder()
+y = encoder.fit_transform(y)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+model = GaussianNB()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+print("Bank Loan Prediction using Naive Bayes")
+print("Accuracy:", round(accuracy_score(y_test, y_pred) * 100, 2), "%")
+
+print("\nClassification Report:")
+print(classification_report(
+    y_test,
+    y_pred,
+    target_names=encoder.classes_,
+    zero_division=0
+))
+
+# New customer
+new_customer = [[35, 60000, 120000, 720]]
+
+prediction = model.predict(new_customer)
+
+print("New Customer Loan Prediction:",
+      encoder.inverse_transform(prediction)[0])
